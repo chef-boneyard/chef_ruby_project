@@ -1,0 +1,41 @@
+language: ruby
+cache: bundler
+sudo: false
+
+before_install:
+  - bundle --version
+  - gem --version
+
+script:
+  - bundle install --jobs=3 --retry=3
+  - bundle exec rake build
+  - bundle exec rake spec
+
+# The set of Rubies Chef works with
+rvm:
+  - 2.0
+  - 2.1
+  - 2.2
+
+# Add builds that work with specific chefs
+matrix:
+  include:
+    - env: GEMFILE_MOD=gem 'chef', github: 'chef/chef'
+      rvm: 2.2
+    - env: GEMFILE_MOD=gem 'chef', '~> 12.3'
+      rvm: 2.2
+    - env: GEMFILE_MOD=gem 'chef', '~> 12.2'
+      rvm: 2.2
+    - env: GEMFILE_MOD=gem 'chef', '~> 12.1'
+      rvm: 2.2
+    - env: GEMFILE_MOD=gem 'chef', '~> 12.0'
+      rvm: 2.2
+    - env: GEMFILE_MOD=gem 'chef', '~> 11'
+      rvm: 2.2
+      
+matrix:
+  
+# Replace this with the notification stuff for your Slack channel
+# notifications:
+#   slack:
+#     secure: Ueimquh2DjsPZ24PX+yI9a4QzI0rxNInq8xWkIlbhkrhWtdnnZQT4Rk2Bg89gZkHjvp7NZLvHh5hLc39QlYDEycbx3+BdEryEg+33WpdCnShlzQjcMmOvOXBhs6nyOKvIZAjkrcFwfp/4cftk/2dXoE0Za6B3RBOD2yxeHV/nO0=
