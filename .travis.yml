@@ -17,25 +17,30 @@ rvm:
   - 2.1
   - 2.2
 
-# Add builds that work with specific chefs
+# Add builds that work with specific chefs.
+# 12.4 is not included, because the default Travis build includes the latest
+# Chef and that (at the time of writing) is the current Chef
 matrix:
   include:
-    - env: GEMFILE_MOD=gem 'chef', github: 'chef/chef'
+    - env: "GEMFILE_MOD=\"gem 'chef', github: 'chef/chef'\""
       rvm: 2.2
-    - env: GEMFILE_MOD=gem 'chef', '~> 12.3'
+    - env: "GEMFILE_MOD=\"gem 'chef', '~> 12.3', '<= 12.4'\""
       rvm: 2.2
-    - env: GEMFILE_MOD=gem 'chef', '~> 12.2'
+    - env: "GEMFILE_MOD=\"gem 'chef', '~> 12.2', '<= 12.3'\""
       rvm: 2.2
-    - env: GEMFILE_MOD=gem 'chef', '~> 12.1'
+    - env: "GEMFILE_MOD=\"gem 'chef', '~> 12.1', '<= 12.2'\""
       rvm: 2.2
-    - env: GEMFILE_MOD=gem 'chef', '~> 12.0'
+    - env: "GEMFILE_MOD=\"gem 'chef', '~> 12.0', '<= 12.1'\""
       rvm: 2.2
-    - env: GEMFILE_MOD=gem 'chef', '~> 11'
+    - env: "GEMFILE_MOD=\"gem 'chef', '~> 11'\""
       rvm: 2.2
-      
+
 matrix:
-  
+
 # Replace this with the notification stuff for your Slack channel
+# After running "travis encrypt <your token>"
 # notifications:
 #   slack:
+#     on_failure: always
+#     on_success: change
 #     secure: Ueimquh2DjsPZ24PX+yI9a4QzI0rxNInq8xWkIlbhkrhWtdnnZQT4Rk2Bg89gZkHjvp7NZLvHh5hLc39QlYDEycbx3+BdEryEg+33WpdCnShlzQjcMmOvOXBhs6nyOKvIZAjkrcFwfp/4cftk/2dXoE0Za6B3RBOD2yxeHV/nO0=
