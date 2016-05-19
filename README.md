@@ -1,40 +1,36 @@
-# ruby-project-template
+# chef_ruby_project
+
+[![Build Status Master](https://travis-ci.org/chef/chef_ruby_project.svg?branch=master)](https://travis-ci.org/chef/chef_ruby_project)
+[![Build Status Master](https://ci.appveyor.com/api/projects/status/github/chef/chef_ruby_project?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/chef_ruby_project/branch/master)
 
 This repository helps you get started making a Chef Ruby gem project.
 
-To get started:
+Right now, it supports rake tasks. To use it, `add_development_dependency "chef_ruby_project"` to your gemspec, and put this in your Rakefile:
 
-1. Replace the project name in different files. For example, if your project is `my-awesome-project`, replace `<Ruby Project Template>` with `My Awesome Project`, `ruby-project-template` with `my-awesome-project` and `ruby_project_template` with `my_awesome_project`.
-2. Rename `ruby_project_template.gemspec`, `spec/ruby_project_template.rb`, `lib/ruby_project_template` and `lib/ruby_project_template.rb` as well.
-3. Replace your name and email in different files. For example, replace `<Your Name>` with `John Keiser` and `your_name@chef.io` with `jkeiser@chef.io
-4. Make your Slack channel notification and modify `.travis.yml` to include it.
-5. Add your project to Travis.
-6. Add your project to Appveyor if applicable (remove the appveyor line if not).
-7. Remove this header from `README.md`.
+```ruby
+require "chef_ruby_project"
 
+ChefRubyProject.define_rake_tasks do
+  multitask "default" => %w{spec style}
+  gem_tasks "build", "install", "release"
+  chefstyle_task "style"
+  changelog_task "changelog"
+  rspec_task "spec"
+  yard_task "yard:html"
+  task "yard" => "yard:html"
+end
+```
 
-# ruby-project-template
-[![Build Status Master](https://travis-ci.org/chef/ruby-project-template.svg?branch=master)](https://travis-ci.org/chef/ruby-project-template)
-[![Build Status Master](https://ci.appveyor.com/api/projects/status/github/chef/ruby-project-template?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/ruby-project-template/branch/master)
+This will generate a Rakefile with Chef-standard tasks for `default`, `build`, `install`, `release`. As we learn more and add capability to the tasks, all projects using this will gain the fixes.
 
-
-# DESCRIPTION:
-
-ruby-project-template does stuff. TODO describe
-
-Chef distributes ruby-project-template as a RubyGem. This README is for developers who
-want to modify the <Ruby Project Template> source code. For users who want to write plugins
-for <Ruby Project Template>, see the docs:
-
-* General documentation: http://docs.chef.io/ruby_project_template.html
-* Custom plugin documentation: http://docs.chef.io/ruby_project_template_custom.html
+As we progress, this will support multiplatform gemspecs, version and dependency updating, and the generation of template projects with yard documentation, default specs, kitchen and travis support, and proper chefstyle support.
 
 # DEVELOPMENT:
 
 Before working on the code, if you plan to contribute your changes, you
 should read the contributing guidelines:
 
-* https://github.com/chef/ruby-project-template/blob/master/CONTRIBUTING.md
+* https://github.com/chef/chef_ruby_project/blob/master/CONTRIBUTING.md
 
 The basic process for contributing is:
 
@@ -55,16 +51,17 @@ You can run individual test files by running the rspec executable:
 
 ## Rake Tasks
 
-Ohai has some Rake tasks for doing various things.
+This project has some Rake tasks for doing various things.
 
     rake -T
-    rake clobber_package  # Remove package products
-    rake gem              # Build the gem file ruby-project-template-$VERSION.gem
-    rake install          # install the gem locally
-    rake make_spec        # create a gemspec file
-    rake package          # Build all the packages
-    rake repackage        # Force a rebuild of the package files
-    rake spec             # Run specs
+    rake # spec and style
+    rake build # build all platforms of pkg/chef_ruby_project-VERSION[-PLATFORM].gem
+    rake install # build, then install the current platform chef_ruby_project into the current ruby
+    rake release # build and release all platforms of chef_ruby_project to rubygems.org
+    rake spec # run the specs
+    rake style # run chefstyle
+    rake yard # generate yard documentation
+    rake changelog # generate changelog
 
     ($VERSION is the current version, from the GemSpec in Rakefile)
 
@@ -81,11 +78,11 @@ To release a new version:
 
 Source:
 
-* http://github.com/chef/ruby-project-template/tree/master
+* http://github.com/chef/chef_ruby_project/tree/master
 
 Issues:
 
-* https://github.com/chef/ruby-project-template/issues
+* https://github.com/chef/chef_ruby_project/issues
 
 # LICENSE:
 

@@ -1,6 +1,11 @@
-require "bundler/gem_tasks"
-require "rspec/core/rake_task"
+require_relative "lib/chef_ruby_project"
 
-RSpec::Core::RakeTask.new(:spec)
-
-task :default => :spec
+ChefRubyProject.define_rake_tasks do
+  multitask "default" => %w{spec style}
+  gem_tasks "build", "install", "release"
+  chefstyle_task "style"
+  changelog_task "changelog"
+  rspec_task "spec"
+  yard_task "yard:html"
+  task "yard" => "yard:html"
+end
