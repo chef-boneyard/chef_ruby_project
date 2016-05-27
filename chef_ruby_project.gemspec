@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   # useful things to have while developing:
   spec.add_dependency "pry"
 
-  spec.extra_rdoc_files = %w{CHANGELOG.md CONTIRBUTING.md DOC_CHANGES.md README.md}
+  spec.extra_rdoc_files = %w{CHANGELOG.md CONTRIBUTING.md DOC_CHANGES.md README.md}
   spec.files = %w{Rakefile Gemfile} + spec.extra_rdoc_files + Dir.glob("{distro,lib,tasks,spec,exe}/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
   spec.bindir = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
